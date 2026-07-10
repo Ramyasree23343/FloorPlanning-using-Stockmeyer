@@ -5,7 +5,6 @@ Python implementation of VLSI floorplanning optimization using Stockmeyer Algori
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
 ![VLSI](https://img.shields.io/badge/Domain-VLSI-green)
 ![EDA](https://img.shields.io/badge/EDA-Floorplanning-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ## Project Overview
 
@@ -159,21 +158,6 @@ Performance Comparison
 
 ---
 
-# Repository Structure
-
-```
-vlsi-floorplanning-optimization/
-
-│── src/
-│── input/
-│── output/
-│── report/
-│── images/
-│── README.md
-│── requirements.txt
-```
-
----
 
 # Results
 
@@ -211,38 +195,6 @@ Area Reduction
 | HPWL | 117 | 31 | 148 |
 | Simulated Annealing | 117 | 33.5 | 150.5 |
 | Constrained HPWL | 117 | 32.5 | 149.5 |
-
----
-
-# Visual Results
-
-## Initial Floorplan
-
-*(Insert Figure 2)*
-
----
-
-## Stockmeyer Optimized Floorplan
-
-*(Insert Figure 4)*
-
----
-
-## HPWL Optimized Floorplan
-
-*(Insert Figure 5)*
-
----
-
-## Simulated Annealing Result
-
-*(Insert Figure 6)*
-
----
-
-## Constrained HPWL Result
-
-*(Insert Figure 7)*
 
 ---
 
@@ -303,8 +255,6 @@ Developed as part of the **CAD for IC Design** course at **Vellore Institute of 
 - R. Sandhyaa
 - Jagarakshitha V
 
----
 
-# License
 
 This project is released under the MIT License.
