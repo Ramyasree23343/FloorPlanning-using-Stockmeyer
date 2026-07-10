@@ -1,140 +1,310 @@
 # FloorPlanning-using-Stockmeyer
 Python implementation of VLSI floorplanning optimization using Stockmeyer Algorithm, HPWL, and Simulated Annealing.
-# Area and Wirelength Optimization in VLSI Floorplanning
+# Area and Wirelength Optimization in VLSI Floorplanning using Stockmeyer, HPWL and Simulated Annealing
 
-A Python implementation of VLSI floorplanning optimization using the Stockmeyer Algorithm, Half-Perimeter Wirelength (HPWL), Simulated Annealing (SA), and Constrained HPWL optimization.
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![VLSI](https://img.shields.io/badge/Domain-VLSI-green)
+![EDA](https://img.shields.io/badge/EDA-Floorplanning-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
----
+## Project Overview
 
-## Overview
+Modern VLSI chips contain millions to billions of transistors, making efficient physical design one of the most important stages of IC implementation. During physical design, **floorplanning** determines the placement of functional blocks on a chip. Poor floorplanning leads to larger chip area, longer routing paths, increased power consumption, and degraded performance.
 
-This project was developed as part of the **CAD for IC Design** course at **VIT Chennai**.
+This project presents a **Python-based implementation** of classical VLSI floorplanning optimization techniques that minimize both **chip area** and **interconnect wirelength**. The work combines deterministic and stochastic optimization methods to generate compact and efficient chip layouts.
 
-The objective is to optimize VLSI floorplans by reducing
-
-- Silicon Area
-- Wirelength
-- Overall Cost
-
-using classical Electronic Design Automation (EDA) algorithms.
+This project was developed as part of the **CAD for IC Design** course at **Vellore Institute of Technology (VIT), Chennai**.
 
 ---
 
-## Features
+# Problem Statement
 
-✔ Stockmeyer Algorithm
+Given:
 
-✔ Polish Expression Evaluation
+- A set of rectangular circuit blocks
+- Block dimensions
+- Netlist connecting different blocks
+- Polish Expression describing slicing structure
 
-✔ Slicing Floorplan Generation
+Develop an optimization framework that
 
-✔ HPWL Calculation
-
-✔ Simulated Annealing Optimization
-
-✔ Constrained HPWL Optimization
-
-✔ Floorplan Visualization
-
-✔ Performance Comparison
+- Minimizes silicon area
+- Minimizes interconnect wirelength
+- Preserves non-overlapping placement
+- Produces optimized VLSI floorplans
 
 ---
 
-## Algorithms Used
+# Objectives
 
-### Stockmeyer Algorithm
-
-Generates an optimal slicing floorplan by minimizing unused area using dynamic programming.
+- Generate slicing floorplans from Polish Expressions
+- Implement the Stockmeyer Algorithm
+- Compute Half-Perimeter Wirelength (HPWL)
+- Optimize wirelength using HPWL
+- Apply Simulated Annealing to avoid local minima
+- Compare different optimization strategies
+- Visualize floorplans before and after optimization
 
 ---
 
-### HPWL
+# Algorithms Used
 
-Computes Half-Perimeter Wirelength to estimate routing cost.
+## 1. Polish Expression
 
+The floorplan is represented using a postfix expression containing
+
+- Block identifiers
+- Horizontal cut (H)
+- Vertical cut (V)
+
+Example:
+
+```
+B3 B7 H B5 B1 V B8 B2 H V B4 V B6 V H
+```
+
+The expression is evaluated using a stack to generate the slicing tree.
+
+---
+
+## 2. Stockmeyer Algorithm
+
+The Stockmeyer algorithm computes the optimal slicing floorplan using dynamic programming.
+
+### Purpose
+
+- Minimize total chip area
+- Remove dead space
+- Generate compact layouts
+
+Area is calculated as
+
+```
+Area = Width × Height
+```
+
+The algorithm prunes dominated solutions and retains only Pareto-optimal width-height combinations.
+
+---
+
+## 3. Half-Perimeter Wirelength (HPWL)
+
+After obtaining an optimized floorplan, the routing cost is estimated using HPWL.
+
+Formula
+
+```
 HPWL = (Xmax − Xmin) + (Ymax − Ymin)
+```
+
+HPWL is widely used because it provides a fast approximation of routing length.
 
 ---
 
-### Simulated Annealing
+## 4. Simulated Annealing
 
-Explores multiple floorplan configurations to avoid local minima and improve global optimization.
+Simulated Annealing is a stochastic optimization algorithm inspired by the annealing process in metallurgy.
 
----
+Instead of accepting only better solutions, SA occasionally accepts worse solutions with a probability
 
-### Constrained HPWL
+```
+P = exp(-ΔCost / Temperature)
+```
 
-Optimizes routing while preserving the original floorplan dimensions.
-
----
-
-## Results
-
-| Metric | Before | After |
-|---------|--------|-------|
-| Area | 180 | 117 |
-| Area Reduction | - | 35% |
-| HPWL | 37 | 31 |
+This helps escape local minima and move toward globally optimized floorplans.
 
 ---
 
-## Folder Structure
+## 5. Constrained HPWL Optimization
 
-src/
+Unlike unconstrained optimization, constrained HPWL preserves the dimensions obtained from the Stockmeyer floorplan while reducing routing cost.
 
-Contains all optimization algorithms.
+Advantages
 
-input/
-
-Input block dimensions and netlists.
-
-output/
-
-Generated floorplans and comparison plots.
-
-report/
-
-IEEE paper.
-
-images/
-
-Screenshots used in README.
+- Fixed chip outline
+- Better manufacturability
+- Practical floorplanning
 
 ---
 
-## Technologies
+# Project Workflow
 
-Python
-
-NumPy
-
-Matplotlib
-
-Optimization Algorithms
-
-Electronic Design Automation (EDA)
-
-VLSI Physical Design
+```
+Input Blocks
+      │
+      ▼
+Read Polish Expression
+      │
+      ▼
+Generate Initial Floorplan
+      │
+      ▼
+Stockmeyer Optimization
+      │
+      ▼
+HPWL Calculation
+      │
+      ▼
+HPWL Optimization
+      │
+      ▼
+Simulated Annealing
+      │
+      ▼
+Constrained HPWL
+      │
+      ▼
+Performance Comparison
+```
 
 ---
 
-## Future Improvements
+# Repository Structure
 
-- Genetic Algorithm
+```
+vlsi-floorplanning-optimization/
+
+│── src/
+│── input/
+│── output/
+│── report/
+│── images/
+│── README.md
+│── requirements.txt
+```
+
+---
+
+# Results
+
+## Area Optimization
+
+| Stage | Width | Height | Area |
+|--------|-------|--------|------|
+| Initial Floorplan | 15 | 12 | 180 |
+| Stockmeyer Optimized | 13 | 9 | 117 |
+
+Area Reduction
+
+```
+35%
+```
+
+---
+
+## Wirelength Optimization
+
+| Method | HPWL |
+|----------|------|
+| Stockmeyer | 37.0 |
+| HPWL Optimization | 31.0 |
+| Simulated Annealing | 33.5 |
+| Constrained HPWL | 32.5 |
+
+---
+
+# Performance Comparison
+
+| Optimization | Area | HPWL | Total Cost |
+|--------------|------|------|------------|
+| Stockmeyer | 117 | 37 | 154 |
+| HPWL | 117 | 31 | 148 |
+| Simulated Annealing | 117 | 33.5 | 150.5 |
+| Constrained HPWL | 117 | 32.5 | 149.5 |
+
+---
+
+# Visual Results
+
+## Initial Floorplan
+
+*(Insert Figure 2)*
+
+---
+
+## Stockmeyer Optimized Floorplan
+
+*(Insert Figure 4)*
+
+---
+
+## HPWL Optimized Floorplan
+
+*(Insert Figure 5)*
+
+---
+
+## Simulated Annealing Result
+
+*(Insert Figure 6)*
+
+---
+
+## Constrained HPWL Result
+
+*(Insert Figure 7)*
+
+---
+
+# Technologies Used
+
+- Python
+- NumPy
+- Matplotlib
+- Object-Oriented Programming
+- VLSI Physical Design
+- Electronic Design Automation (EDA)
+
+---
+
+# Applications
+
+- ASIC Physical Design
+- VLSI CAD Research
+- Academic Projects
+- Floorplanning
+- Physical Design Automation
+- Chip Area Optimization
+- Routing Optimization
+
+---
+
+# Future Improvements
+
+- Genetic Algorithm based floorplanning
 - Particle Swarm Optimization
-- Routing Congestion Estimation
-- Timing-driven Floorplanning
-- Power-aware Optimization
+- Machine Learning assisted floorplanning
+- Timing-aware optimization
+- Thermal-aware floorplanning
+- Routing congestion estimation
+- 3D IC floorplanning
 
 ---
 
-## Authors
+# References
+
+1. Stockmeyer, P.C. "Optimal Orientations of Cells in Slicing Floorplan Designs."
+2. Kirkpatrick et al. "Optimization by Simulated Annealing."
+3. Wong and Liu. "A New Algorithm for Floorplan Design."
+4. Baker, R.J. *CMOS Circuit Design, Layout and Simulation.*
+
+---
+
+# Authors
+
+**Team Project**
+
+Developed as part of the **CAD for IC Design** course at **Vellore Institute of Technology, Chennai**.
+
+**Team Members**
 
 - M. Ramya Sree
-- Tejasvini R
+- Tejasvini R.
 - R. Sandhyaa
 - Jagarakshitha V
 
-Department of Electronics Engineering
+---
 
-VIT Chennai
+# License
+
+This project is released under the MIT License.
